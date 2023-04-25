@@ -1,11 +1,20 @@
+// Example testing sketch for various DHT humidity/temperature sensors
+// Written by ladyada, public domain
+
+// REQUIRES the following Arduino libraries:
+// - DHT Sensor Library: https://github.com/adafruit/DHT-sensor-library
+// - Adafruit Unified Sensor Lib: https://github.com/adafruit/Adafruit_Sensor
+
 #include "DHT.h"
-#define DHTPIN 6     // Digital pin connected to the DHT sensor
+
+#define DHTPIN 2     // Digital pin connected to the DHT sensor
 // Feather HUZZAH ESP8266 note: use pins 3, 4, 5, 12, 13 or 14 --
 // Pin 15 can work but DHT must be disconnected during program upload.
 
-
+// Uncomment whatever type you're using!
 #define DHTTYPE DHT11   // DHT 11
-
+//#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+//#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
 // Connect pin 1 (on the left) of the sensor to +5V
 // NOTE: If using a board with 3.3V logic like an Arduino Due connect pin 1
@@ -20,17 +29,9 @@
 // as the current DHT reading algorithm adjusts itself to work on faster procs.
 DHT dht(DHTPIN, DHTTYPE);
 
-//Include la libreria
-#include <LiquidCrystal_I2C.h>
-// Imposta l'indirizzo del display a 0x27 per 16 caratteri 2 linee
-LiquidCrystal_I2C lcd(0x27, 16, 2);
-
-
 void setup() {
   Serial.begin(9600);
   Serial.println(F("DHTxx test!"));
-  lcd.begin(); //Init with pin default ESP8266 or ARDUINO
-  lcd.backlight(); //accende la retroilluminazione
 
   dht.begin();
 }
@@ -57,16 +58,6 @@ void loop() {
   float hif = dht.computeHeatIndex(f, h);
   // Compute heat index in Celsius (isFahreheit = false)
   float hic = dht.computeHeatIndex(t, h, false);
-  String hs = String(h);
-  String ts = String(t);
-
-
-  lcd.setCursor(0, 0);
-  lcd.print("Humidity "+hs);
-  delay (2000);
-  lcd.setCursor(0, 0);
-  lcd.print("Temperature " + ts + "%");
-  delay (2000);
 
   Serial.print(F("Humidity: "));
   Serial.print(h);
