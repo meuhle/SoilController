@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOIL CONTROLLER</title>
+</head>
+<body>
+  <h1>Select quantity in ml for every l of water (follow table) </h1>
+  <form>
+    <label for="BioGrow">BioGrow</label><br>
+    <input type="number" id="BioGrow" name="BioGrow"><br><br>
+
+    <label for="BioBloom">BioBloom</label><br>
+    <input type="number" id="BioBloom" name="BioBloom"><br><br>
+
+    <label for="TopMax">TopMax</label><br>
+    <input type="number" id="TopMax" name="TopMax"><br><br>
+
+    <label for="BioHeaven">BioHeaven</label><br>
+    <input type="number" id="BioHeaven" name="BioHeaven"><br><br>
+
+    <label for="AlgaMic">AlgaMic</label><br>
+    <input type="number" id="AlgaMic" name="AlgaMic"><br><br>
+
+    <label for="ActiVera">ActiVera</label><br>
+    <input type="number" id="ActiVera" name="ActiVera"><br><br>
+
+    <button onclick="submitForm('/pump')"> PUMP</button>
+  </form>
+  		<script>
+		function submitForm(formId) {
+			var bg_val = document.getElementById('BioGrow').value;
+            var bb_val = document.getElementById('BioBloom').value;
+            var tm_val = document.getElementById('TopMax').value;
+            var bh_val = document.getElementById('BioHeaven').value;
+            var am_val = document.getElementById('AlgaMic').value;
+            var av_val = document.getElementById('ActiVera').value;
+
+			var url = `${formId}?val=${bg_val}+${bb_val}+${tm_val}+${bh_val}+${am_val}+${av_val}`; 
+			fetch(url); 
+		}
+		</script>
+</body>
+</html>

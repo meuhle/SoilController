@@ -6,7 +6,9 @@
 #define p6 8
 
 #define oneml 1115
-
+#define NUM_PUMPS 6
+#define PLANTS 9
+//this must be added for single plant so for single litre
 unsigned long int Pu1=22;
 unsigned long int Pu2=22;
 unsigned long int Pu3=22;
@@ -14,87 +16,31 @@ unsigned long int Pu4=26;
 unsigned long int Pu5=22;
 unsigned long int Pu6=15;
 
+int pumps_pin[NUM_PUMPS] = {p1,p2,p3,p4,p5,p6};
+int pumps_ml[NUM_PUMPS] = {Pu1,Pu2,Pu3,Pu4,Pu5,Pu6};
+for(int i=0; i<NUM_PUMPS; i++){
+    pumps_ml[i] = pumps_ml[i] * PLANTS ;
+}
+
+int pump_used = 6
 boolean pumping = true;
 
 
 void setup() {
-    pinMode(p1,OUTPUT);
-    pinMode(p2,OUTPUT);
-    pinMode(p3,OUTPUT);
-    pinMode(p4,OUTPUT);
-    pinMode(p5,OUTPUT);
-    pinMode(p6,OUTPUT);
-    
-    Serial.begin(9600); 
-
+    for(int i=0;i<NUM_PUMPS; i++){
+        pinMode(pumps_pin[i], OUTPUT);
+    }    
+    //Serial.begin(9600); 
 }
 
 void loop() {
  if (pumping == true){
-
-  //filling pipe first 
-  digitalWrite(p1, HIGH);
-  delay(7000);  //fill pipe
-  digitalWrite(p1, LOW); 
-  delay(2000);
-  
-  digitalWrite(p2, HIGH);
-  delay(7000);  //fill pipe
-  digitalWrite(p2, LOW);
-  delay(2000);
-  
-  digitalWrite(p3, HIGH);
-  delay(7000);   //fill pipe
-  digitalWrite(p3, LOW);
-  delay(2000);
-  
-  digitalWrite(p4, HIGH); 
-  delay(7000);   //fill pipe
-  digitalWrite(p4, LOW);
-  delay(2000);
-
-  digitalWrite(p5, HIGH);
-  delay(7000);  //fill pipe
-  digitalWrite(p5, LOW);
-  delay(2000);
-  /*
-  digitalWrite(p6, HIGH); 
-  delay(0* oneml);   //fill pipe
-  digitalWrite(p6, LOW);
-  */
-
-  //fill fert
-  digitalWrite(p1, HIGH);
-  delay(Pu1* oneml);  //fill pipe
-  digitalWrite(p1, LOW); 
-  delay(2000);
-  
-  digitalWrite(p2, HIGH);
-  delay(Pu2* oneml);  //fill pipe
-  digitalWrite(p2, LOW);
-  delay(2000);
-  
-  digitalWrite(p3, HIGH);
-  delay(Pu3* oneml);   //fill pipe
-  digitalWrite(p3, LOW);
-  delay(2000);
-  
-  digitalWrite(p4, HIGH); 
-  delay(Pu4* oneml);   //fill pipe
-  digitalWrite(p4, LOW);
-  delay(2000);
-
-  digitalWrite(p5, HIGH);
-  delay(Pu5* oneml);  //fill pipe
-  digitalWrite(p5, LOW);
-  delay(2000);
-  /*
-  digitalWrite(p6, HIGH); 
-  delay(0* oneml);   //fill pipe
-  digitalWrite(p6, LOW);
-  */
-  pumping = false;
-  
+    for( int i = 0 ; i< NUM_PUMPS; i++){
+        digitalWrite(pumps_pin[i], HIGH);
+        delay(pumps_ml[i] * oneml);  //fill pipe
+        digitalWrite(pumps_pin[i], LOW); 
+        delay(1000);
+    } 
+  pumping = false;  
  }
-
 }
